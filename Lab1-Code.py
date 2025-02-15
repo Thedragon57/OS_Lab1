@@ -15,14 +15,28 @@ Second: The writing of the dictionary to a diffrent txt file
 
 #First we open the file we want, and for now we will hard code the txt file
 #It will be saved as fd
-fd = os.open("speech.txt", os.O_RDONLY)
+currentFile = os.open("speech.txt", os.O_RDONLY)
 
 '''
-For a lil funny idea what we could have done is a sliding window
-we set it to increment with the catch and rest condition being that of the white
-space
+So what we be doing here is having a small buffured reader that takes in a total of
+100 bytes at a time.  Followed by that in the for loop we will decode the data
 '''
-cleverName = os.read(fd, 10)
-
-for i in cleverName:
+cleverName = os.read(currentFile, 200)
+currentWord = ''
+dictionaryList = {}
+for i in cleverName.decode():
         print(i)
+        currentWord += i
+        if(i==' ' or i == '\n') and currentWord[:-1] in dictionaryList:
+                dictionaryList[currentWord[:-1]] += 1
+                currentWord = ''
+        elif(i==' ' or i == '\n') and not currentWord[:-1] in dictionaryList:
+                dictionaryList[currentWord[:-1]] = 1
+                currentWord = ''
+
+        
+
+
+print(dictionaryList)
+                
+        
