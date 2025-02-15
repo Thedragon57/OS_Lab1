@@ -15,7 +15,20 @@ Second: The writing of the dictionary to a diffrent txt file
 
 #First we open the file we want, and for now we will hard code the txt file
 #It will be saved as fd
-currentFile = os.open("speech.txt", os.O_RDONLY)
+print("Option 1 is the declartion.txt option 2 is the speech.txt")
+while True:
+        fileSelect = input()
+
+        if fileSelect == "1":
+                fileSelect = "declaration.txt"
+                break
+        elif fileSelect == "2":
+                fileSelect = "speech.txt"
+                break
+        else: 
+                print("Please chose options 1 or 2")
+
+currentFile = os.open(fileSelect, os.O_RDONLY)
 
 '''
 So what we be doing here is having a small buffured reader that takes in a total of
@@ -38,9 +51,11 @@ while cleverName != b'':
         cleverName = os.read(currentFile, 100)
 
 
-print(dictionaryList)
-                
-currentWriter = os.open("speechKeyTest.txt", os.O_WRONLY | os.O_TRUNC)
+
+del dictionaryList['']
+print(dictionaryList)  
+
+currentWriter = os.open("outputKey.txt", os.O_WRONLY | os.O_CREAT |  os.O_TRUNC)
 
 
 for key in dictionaryList:

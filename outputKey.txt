@@ -4,7 +4,6 @@ vicissitudes 2
 incident 2
 to 96
 life 2
- 308
 no 16
 event 4
 could 6
