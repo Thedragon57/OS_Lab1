@@ -21,22 +21,31 @@ currentFile = os.open("speech.txt", os.O_RDONLY)
 So what we be doing here is having a small buffured reader that takes in a total of
 100 bytes at a time.  Followed by that in the for loop we will decode the data
 '''
-cleverName = os.read(currentFile, 200)
+cleverName = os.read(currentFile, 100)
 currentWord = ''
 dictionaryList = {}
-for i in cleverName.decode():
-        print(i)
-        currentWord += i
-        if(i==' ' or i == '\n') and currentWord[:-1] in dictionaryList:
-                dictionaryList[currentWord[:-1]] += 1
-                currentWord = ''
-        elif(i==' ' or i == '\n') and not currentWord[:-1] in dictionaryList:
-                dictionaryList[currentWord[:-1]] = 1
-                currentWord = ''
+while cleverName != b'':
+        for i in cleverName.decode():
+                print(i)
+                currentWord += i
+                if(i==' ' or i == '\n' or i == '.' or i == ',' or i == ';' or i == '"') and currentWord[:-1].lower() in dictionaryList:
+                        dictionaryList[currentWord[:-1].lower()] += 1
+                        currentWord = ''
+                elif(i==' ' or i == '\n' or i == '.' or i == ','or i == ';' or i == '"') and not currentWord[:-1].lower() in dictionaryList:
+                        dictionaryList[currentWord[:-1].lower()] = 1
+                        currentWord = ''
 
-        
+        cleverName = os.read(currentFile, 100)
 
 
 print(dictionaryList)
                 
-        
+currentWriter = os.open("speechKeyTest.txt", os.O_WRONLY | os.O_TRUNC)
+
+
+for key in dictionaryList:
+        os.write(currentWriter, (str(key)+ ' ').encode())
+        os.write(currentWriter, (str(dictionaryList[key])+'\n').encode())
+
+
+
