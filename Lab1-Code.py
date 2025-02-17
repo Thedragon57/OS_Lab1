@@ -63,4 +63,4 @@ for key in dictionaryList:
         os.write(currentWriter, (str(dictionaryList[key])+'\n').encode())
 
 
-
+os.close(currentWriter)
